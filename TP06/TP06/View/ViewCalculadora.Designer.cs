@@ -1,7 +1,10 @@
 ﻿
+using System.Windows.Forms;
+using TP06.Controller;
+
 namespace TP06
 {
-    partial class Form1
+    partial class ViewCalculadora
     {
         /// <summary>
         ///  Required designer variable.
@@ -64,6 +67,7 @@ namespace TP06
             this.btnC.TabIndex = 1;
             this.btnC.Text = "C";
             this.btnC.UseVisualStyleBackColor = true;
+            this.btnC.Click += new System.EventHandler(this.btnC_Click);
             // 
             // btn7
             // 
@@ -73,6 +77,7 @@ namespace TP06
             this.btn7.TabIndex = 2;
             this.btn7.Text = "7";
             this.btn7.UseVisualStyleBackColor = true;
+            this.btn7.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn8
             // 
@@ -82,6 +87,7 @@ namespace TP06
             this.btn8.TabIndex = 3;
             this.btn8.Text = "8";
             this.btn8.UseVisualStyleBackColor = true;
+            this.btn8.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn9
             // 
@@ -91,6 +97,7 @@ namespace TP06
             this.btn9.TabIndex = 4;
             this.btn9.Text = "9";
             this.btn9.UseVisualStyleBackColor = true;
+            this.btn9.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn6
             // 
@@ -100,6 +107,7 @@ namespace TP06
             this.btn6.TabIndex = 7;
             this.btn6.Text = "6";
             this.btn6.UseVisualStyleBackColor = true;
+            this.btn6.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn5
             // 
@@ -109,6 +117,7 @@ namespace TP06
             this.btn5.TabIndex = 6;
             this.btn5.Text = "5";
             this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn4
             // 
@@ -118,6 +127,7 @@ namespace TP06
             this.btn4.TabIndex = 5;
             this.btn4.Text = "4";
             this.btn4.UseVisualStyleBackColor = true;
+            this.btn4.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn3
             // 
@@ -127,6 +137,7 @@ namespace TP06
             this.btn3.TabIndex = 10;
             this.btn3.Text = "3";
             this.btn3.UseVisualStyleBackColor = true;
+            this.btn3.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn2
             // 
@@ -136,6 +147,7 @@ namespace TP06
             this.btn2.TabIndex = 9;
             this.btn2.Text = "2";
             this.btn2.UseVisualStyleBackColor = true;
+            this.btn2.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btn1
             // 
@@ -145,7 +157,7 @@ namespace TP06
             this.btn1.TabIndex = 8;
             this.btn1.Text = "1";
             this.btn1.UseVisualStyleBackColor = true;
-            this.btn1.Click += new System.EventHandler(this.button9_Click);
+            this.btn1.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btnIgual
             // 
@@ -164,7 +176,6 @@ namespace TP06
             this.btnPunto.TabIndex = 12;
             this.btnPunto.Text = ".";
             this.btnPunto.UseVisualStyleBackColor = true;
-            this.btnPunto.Click += new System.EventHandler(this.button11_Click);
             // 
             // btn0
             // 
@@ -174,6 +185,7 @@ namespace TP06
             this.btn0.TabIndex = 11;
             this.btn0.Text = "0";
             this.btn0.UseVisualStyleBackColor = true;
+            this.btn0.Click += new System.EventHandler(this.btnNro_Click);
             // 
             // btnDivision
             // 
@@ -211,7 +223,7 @@ namespace TP06
             this.btnSuma.Text = "+";
             this.btnSuma.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // ViewCalculadora
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -234,9 +246,8 @@ namespace TP06
             this.Controls.Add(this.btn7);
             this.Controls.Add(this.btnC);
             this.Controls.Add(this.pantalla);
-            this.Name = "Form1";
+            this.Name = "ViewCalculadora";
             this.Text = "Calculadora";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,6 +273,25 @@ namespace TP06
         private System.Windows.Forms.Button btnProducto;
         private System.Windows.Forms.Button btnResta;
         private System.Windows.Forms.Button btnSuma;
+
+        public TextBox Pantalla { get => pantalla; set => pantalla = value; }
+        public Button BtnC { get => btnC; set => btnC = value; }
+        public Button Btn7 { get => btn7; set => btn7 = value; }
+        public Button Btn8 { get => btn8; set => btn8 = value; }
+        public Button Btn9 { get => btn9; set => btn9 = value; }
+        public Button Btn6 { get => btn6; set => btn6 = value; }
+        public Button Btn5 { get => btn5; set => btn5 = value; }
+        public Button Btn4 { get => btn4; set => btn4 = value; }
+        public Button Btn3 { get => btn3; set => btn3 = value; }
+        public Button Btn2 { get => btn2; set => btn2 = value; }
+        public Button Btn1 { get => btn1; set => btn1 = value; }
+        public Button BtnIgual { get => btnIgual; set => btnIgual = value; }
+        public Button BtnPunto { get => btnPunto; set => btnPunto = value; }
+        public Button Btn0 { get => btn0; set => btn0 = value; }
+        public Button BtnDivision { get => btnDivision; set => btnDivision = value; }
+        public Button BtnProducto { get => btnProducto; set => btnProducto = value; }
+        public Button BtnResta { get => btnResta; set => btnResta = value; }
+        public Button BtnSuma { get => btnSuma; set => btnSuma = value; }
     }
 }
 
