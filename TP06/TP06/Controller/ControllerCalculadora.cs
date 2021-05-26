@@ -47,9 +47,35 @@ namespace TP06.Controller
                 ventana.Pantalla.Text = "NAN";
         }
 
-        public void EscribirPantalla(string numero)
+        public void EscribirNumero(string numero)
         {
-            ventana.Pantalla.Text += numero;
+            // Si hay un unico 0 en pantalla, no se podrán escribir mas 0
+            if (ventana.Pantalla.Text != "0" || numero != "0")
+                ventana.Pantalla.Text += numero;
+
+        }
+
+        public void Vaciar()
+        {
+            ventana.Pantalla.Text = "";
+        }
+
+        public void EscribirPunto()
+        {
+            if (!ventana.Pantalla.Text.Contains("."))
+            {
+                if (ventana.Pantalla.Text == "")
+                    ventana.Pantalla.Text = "0.";
+                else
+                    ventana.Pantalla.Text += ".";
+            }
+        }
+
+        public void EscribirSigno(string signo)
+        {
+            Regex signos = new Regex(@"\d+\z");
+            if (signos.IsMatch(ventana.Pantalla.Text))
+                ventana.Pantalla.Text += $" {signo} ";
         }
 
         public string[] leerPantalla(string txtPantalla)

@@ -176,6 +176,7 @@ namespace TP06
             this.btnPunto.TabIndex = 12;
             this.btnPunto.Text = ".";
             this.btnPunto.UseVisualStyleBackColor = true;
+            this.btnPunto.Click += new System.EventHandler(this.btnPunto_Click);
             // 
             // btn0
             // 
@@ -195,6 +196,7 @@ namespace TP06
             this.btnDivision.TabIndex = 17;
             this.btnDivision.Text = "/";
             this.btnDivision.UseVisualStyleBackColor = true;
+            this.btnDivision.Click += new System.EventHandler(this.btnSigno_Click);
             // 
             // btnProducto
             // 
@@ -204,6 +206,7 @@ namespace TP06
             this.btnProducto.TabIndex = 16;
             this.btnProducto.Text = "*";
             this.btnProducto.UseVisualStyleBackColor = true;
+            this.btnProducto.Click += new System.EventHandler(this.btnSigno_Click);
             // 
             // btnResta
             // 
@@ -213,6 +216,7 @@ namespace TP06
             this.btnResta.TabIndex = 15;
             this.btnResta.Text = "-";
             this.btnResta.UseVisualStyleBackColor = true;
+            this.btnResta.Click += new System.EventHandler(this.btnSigno_Click);
             // 
             // btnSuma
             // 
@@ -222,6 +226,7 @@ namespace TP06
             this.btnSuma.TabIndex = 14;
             this.btnSuma.Text = "+";
             this.btnSuma.UseVisualStyleBackColor = true;
+            this.btnSuma.Click += new System.EventHandler(this.btnSigno_Click);
             // 
             // ViewCalculadora
             // 

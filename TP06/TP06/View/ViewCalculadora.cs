@@ -24,12 +24,23 @@ namespace TP06
         private void btnNro_Click(object sender, EventArgs e)
         {
             Button boton = (Button)sender;
-            controller.EscribirPantalla(boton.Text);
+            controller.EscribirNumero(boton.Text);
         }
 
         private void btnC_Click(object sender, EventArgs e)
         {
-            Pantalla.Text = "";
+            controller.Vaciar();
+        }
+
+        private void btnPunto_Click(object sender, EventArgs e)
+        {
+            controller.EscribirPunto();
+        }
+
+        private void btnSigno_Click(object sender, EventArgs e)
+        {
+            Button boton = (Button)sender;
+            controller.EscribirSigno(boton.Text);
         }
     }
 }
