@@ -47,5 +47,10 @@ namespace TP06
         {
             controller.EscribirResultado();
         }
+
+        private void pantalla_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            controller.EscribirDesdeTeclado(e.KeyChar);
+        }
     }
 }

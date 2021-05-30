@@ -56,8 +56,10 @@ namespace TP06
             // 
             this.pantalla.Location = new System.Drawing.Point(21, 25);
             this.pantalla.Name = "pantalla";
+            this.pantalla.ReadOnly = true;
             this.pantalla.Size = new System.Drawing.Size(187, 23);
             this.pantalla.TabIndex = 0;
+            this.pantalla.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pantalla_KeyPress);
             // 
             // btnC
             // 
@@ -254,6 +256,7 @@ namespace TP06
             this.Controls.Add(this.pantalla);
             this.Name = "ViewCalculadora";
             this.Text = "Calculadora";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pantalla_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

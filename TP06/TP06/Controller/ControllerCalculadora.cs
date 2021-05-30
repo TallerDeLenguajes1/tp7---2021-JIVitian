@@ -38,7 +38,8 @@ namespace TP06.Controller
 
         public void EscribirPunto()
         {
-            Regex controlPunto = new Regex(@"\s?\d*\.\d*");
+            Regex controlPunto = new Regex(@"\d*\.\d*\z");
+            // Controlo que no haya mas de un punto por termino
             if (!controlPunto.IsMatch(ventana.Pantalla.Text))
             {
                 if (ventana.Pantalla.Text == "" || ventana.Pantalla.Text.EndsWith(" "))
@@ -51,12 +52,27 @@ namespace TP06.Controller
         public void EscribirSigno(string signo)
         {
             Regex signos = new Regex(@"(\+|\-|\*|\/)\s\z");
-            if (ventana.Pantalla.Text == "" && signo == "-") //Para poder ingresar numeros negativos al inicio
+            // Para poder ingresar numeros negativos al inicio
+            if (ventana.Pantalla.Text == "" && signo == "-") 
                 ventana.Pantalla.Text += signo;
-            if (new Regex(@"\d+\z").IsMatch(ventana.Pantalla.Text)) // Solo puedo ingresar un signo si hay un numero atras
+            // Solo puedo ingresar un signo si hay un numero atras
+            if (new Regex(@"\d+\z").IsMatch(ventana.Pantalla.Text)) 
                 ventana.Pantalla.Text += $" {signo} ";
             if (signos.IsMatch(ventana.Pantalla.Text)) // Reemplazo el ultimo signo
                 ventana.Pantalla.Text = signos.Replace(ventana.Pantalla.Text, $"{signo} ");
+        }
+
+        public void EscribirDesdeTeclado(char key)
+        {
+            string valor = key.ToString();
+            Regex cNumero = new Regex(@"\d");
+            Regex cSigno = new Regex(@"\+|\-|\*|\/");
+
+            if (cNumero.IsMatch(valor)) EscribirNumero(valor);
+            if (cSigno.IsMatch(valor)) EscribirSigno(valor);
+            if (key == '.') EscribirPunto();
+            if (key == '\r') EscribirResultado();
+            if (key == 'c' || key == 'C') Vaciar();
         }
 
         public string[] leerPantalla()
