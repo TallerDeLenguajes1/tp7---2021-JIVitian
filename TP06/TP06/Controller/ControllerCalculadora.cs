@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,52 +21,28 @@ namespace TP06.Controller
             this.ventana = ventana;
         }
 
-        public void Sumar(string txtPantalla)
-        {
-            leerPantalla(txtPantalla);
-            ventana.Pantalla.Text = calculadora.Suma().ToString();
-        }
-
-        public void Restar(string txtPantalla)
-        {
-            leerPantalla(txtPantalla);
-            ventana.Pantalla.Text = calculadora.Resta().ToString();
-        }
-
-        public void Multiplicar(string txtPantalla)
-        {
-            leerPantalla(txtPantalla);
-            ventana.Pantalla.Text = calculadora.Multiplicacion().ToString();
-        }
-
-        public void Dividir(string txtPantalla)
-        {
-            leerPantalla(txtPantalla);
-            if (calculadora.Numero2 != 0)
-                ventana.Pantalla.Text = calculadora.Division().ToString();
-            else
-                ventana.Pantalla.Text = "NAN";
-        }
-
         public void EscribirNumero(string numero)
         {
             // Si hay un unico 0 en pantalla, no se podrán escribir mas 0
             if (ventana.Pantalla.Text != "0" || numero != "0")
                 ventana.Pantalla.Text += numero;
-
+            // Si hubo un NAN o alguna palabra, será reemplazada por un número
+            if (new Regex(@"[a-zA-Z]+").IsMatch(ventana.Pantalla.Text))
+                ventana.Pantalla.Text = numero;
         }
 
         public void Vaciar()
         {
-            ventana.Pantalla.Text = "";
+            ventana.Pantalla.Clear();
         }
 
         public void EscribirPunto()
         {
-            if (!ventana.Pantalla.Text.Contains("."))
+            Regex controlPunto = new Regex(@"\s?\d*\.\d*");
+            if (!controlPunto.IsMatch(ventana.Pantalla.Text))
             {
-                if (ventana.Pantalla.Text == "")
-                    ventana.Pantalla.Text = "0.";
+                if (ventana.Pantalla.Text == "" || ventana.Pantalla.Text.EndsWith(" "))
+                    ventana.Pantalla.Text += "0.";
                 else
                     ventana.Pantalla.Text += ".";
             }
@@ -73,67 +50,43 @@ namespace TP06.Controller
 
         public void EscribirSigno(string signo)
         {
-            Regex signos = new Regex(@"\d+\z");
-            if (signos.IsMatch(ventana.Pantalla.Text))
+            Regex signos = new Regex(@"(\+|\-|\*|\/)\s\z");
+            if (ventana.Pantalla.Text == "" && signo == "-") //Para poder ingresar numeros negativos al inicio
+                ventana.Pantalla.Text += signo;
+            if (new Regex(@"\d+\z").IsMatch(ventana.Pantalla.Text)) // Solo puedo ingresar un signo si hay un numero atras
                 ventana.Pantalla.Text += $" {signo} ";
+            if (signos.IsMatch(ventana.Pantalla.Text)) // Reemplazo el ultimo signo
+                ventana.Pantalla.Text = signos.Replace(ventana.Pantalla.Text, $"{signo} ");
         }
 
-        public string[] leerPantalla(string txtPantalla)
+        public string[] leerPantalla()
         {
             Regex separador = new Regex(" ");
-
-            return separador.Split(txtPantalla);
-            //string[] numeros;
-            //if (txtPantalla.Contains('+'))
-            //{
-            //    numeros = txtPantalla.Split('+');
-            //    calculadora.Numero1 = float.Parse(numeros[0]);
-            //    calculadora.Numero2 = float.Parse(numeros[1])
-            //}
-            //else if (txtPantalla.Contains('-'))
-            //{ 
-            //    numeros = txtPantalla.Split('-');
-            //    calculadora.Numero1 = float.Parse(numeros[0]);
-            //    calculadora.Numero2 = float.Parse(numeros[1]);
-            //}
-            //else if (txtPantalla.Contains('*'))
-            //{
-            //    numeros = txtPantalla.Split('*');
-            //    calculadora.Numero1 = float.Parse(numeros[0]);
-            //    calculadora.Numero2 = float.Parse(numeros[1]);
-            //}
-            //else if (txtPantalla.Contains('/'))
-            //{
-            //    numeros = txtPantalla.Split('/');
-            //    calculadora.Numero1 = float.Parse(numeros[0]);
-            //    calculadora.Numero2 = float.Parse(numeros[1]);
-            //}
-            //else
-            //{
-            //    calculadora.Numero1 = float.Parse(txtPantalla);
-            //}
+            return separador.Split(ventana.Pantalla.Text);
         }
 
         public void EscribirResultado()
         {
-            var operaciones = new Dictionary<string, float>
-            {
-                ["+"] = calculadora.Suma(),
-                ["-"] = calculadora.Resta(),
-                ["*"] = calculadora.Multiplicacion(),
-                ["/"] = calculadora.Division()
-            };
-
             try
             {
-                string[] partes = leerPantalla(ventana.Pantalla.Text);
+                CultureInfo culture = new CultureInfo("en-US");
+                string[] partes = leerPantalla();
+                if (partes.Length == 3 && partes[2] != "")
+                {
+                    calculadora.Numero1 = float.Parse(partes[0], culture);
+                    calculadora.Numero2 = float.Parse(partes[2], culture);
 
-                calculadora.Numero1 = float.Parse(partes[0]);
-                calculadora.Numero2 = float.Parse(partes[2]);
-
-                ventana.Pantalla.Text = operaciones[partes[1]].ToString();
+                    if (partes[1] == "+")
+                        ventana.Pantalla.Text = calculadora.Suma().ToString(culture);
+                    else if (partes[1] == "-")
+                        ventana.Pantalla.Text = calculadora.Resta().ToString(culture);
+                    else if (partes[1] == "*")
+                        ventana.Pantalla.Text = calculadora.Multiplicacion().ToString(culture);
+                    else if (partes[1] == "/")
+                        ventana.Pantalla.Text = (calculadora.Numero2 != 0) ? calculadora.Division().ToString(culture) : "NAN";
+                }
             }
-            catch (Exception e) //Por si no se pudiera dividir entre 0 por ejemplo
+            catch (Exception e) //Por si pasara algo raro
             {
                 ventana.Pantalla.Text = "NAN";
             }

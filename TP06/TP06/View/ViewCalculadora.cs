@@ -42,5 +42,10 @@ namespace TP06
             Button boton = (Button)sender;
             controller.EscribirSigno(boton.Text);
         }
+
+        private void btnIgual_Click(object sender, EventArgs e)
+        {
+            controller.EscribirResultado();
+        }
     }
 }
