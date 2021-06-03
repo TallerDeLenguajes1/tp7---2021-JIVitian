@@ -13,12 +13,12 @@ namespace TP06.Controller
     public class ControllerCalculadora
     {
         private ViewCalculadora ventana;
-        private Calculadora calculadora;
+        private LinkedList<Calculadora> lista;
 
         public ControllerCalculadora(ViewCalculadora ventana)
         {
-            this.calculadora = new Calculadora();
             this.ventana = ventana;
+            this.lista = new LinkedList<Calculadora>();
         }
 
         public void EscribirNumero(string numero)
@@ -81,25 +81,50 @@ namespace TP06.Controller
             return separador.Split(ventana.Pantalla.Text);
         }
 
+        private void Calcular(Calculadora calculadora)
+        {
+            switch(calculadora.Operador)
+            {
+                case "+":
+                    calculadora.Resultado = calculadora.Suma();
+                    break;
+                case "-":
+                    calculadora.Resultado = calculadora.Resta();
+                    break;
+                case "*":
+                    calculadora.Resultado = calculadora.Multiplicacion();
+                    break;
+                case "/":
+                // Si intentamos dividir entre 0, se lanzará una excepcion y aparecera NAN en la pantalla
+                    if (calculadora.Numero2 != 0)
+                        calculadora.Resultado = calculadora.Division();
+                    else
+                        throw new Exception();
+                    break;
+            }
+        }
+
         public void EscribirResultado()
         {
             try
             {
                 CultureInfo culture = new CultureInfo("en-US");
                 string[] partes = leerPantalla();
+
                 if (partes.Length == 3 && partes[2] != "")
                 {
+                    LinkedListNode<Calculadora> nodo;
+                    Calculadora calculadora = new Calculadora();
                     calculadora.Numero1 = float.Parse(partes[0], culture);
+                    calculadora.Operador = partes[1];
                     calculadora.Numero2 = float.Parse(partes[2], culture);
+                    calculadora.FechaYHora = DateTime.Now;
 
-                    if (partes[1] == "+")
-                        ventana.Pantalla.Text = calculadora.Suma().ToString(culture);
-                    else if (partes[1] == "-")
-                        ventana.Pantalla.Text = calculadora.Resta().ToString(culture);
-                    else if (partes[1] == "*")
-                        ventana.Pantalla.Text = calculadora.Multiplicacion().ToString(culture);
-                    else if (partes[1] == "/")
-                        ventana.Pantalla.Text = (calculadora.Numero2 != 0) ? calculadora.Division().ToString(culture) : "NAN";
+                    Calcular(calculadora);
+                    nodo = new LinkedListNode<Calculadora>(calculadora);
+                    // Añado el nuevo nodo a la lista.
+                    this.lista.AddFirst(nodo);
+                    ventana.Pantalla.Text = calculadora.Resultado.ToString(culture);
                 }
             }
             catch (Exception e) //Por si pasara algo raro

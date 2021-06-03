@@ -10,10 +10,16 @@ namespace TP06.Model
     {
         private float numero1;
         private float numero2;
+        private string operador;
+        private float resultado;
+        private DateTime fechaYHora;
 
         public float Numero1 { get => numero1; set => numero1 = value; }
         public float Numero2 { get => numero2; set => numero2 = value; }
-        
+        public string Operador { get => operador; set => operador = value; }
+        public float Resultado { get => resultado; set => resultado = value; }
+        public DateTime FechaYHora { get => fechaYHora; set => fechaYHora = value; }
+
         public float Suma()
         {
             return Numero1 + Numero2;
