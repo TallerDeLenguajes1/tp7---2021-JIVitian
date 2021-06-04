@@ -40,5 +40,9 @@ namespace TP06.Model
             return Numero1 / Numero2;
         }
 
+        public override string ToString()
+        {
+            return $"{fechaYHora} ---> {Numero1+Operador+Numero2}={Resultado}";
+        }
     }
 }

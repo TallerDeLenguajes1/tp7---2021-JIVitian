@@ -50,7 +50,7 @@ namespace TP06
             this.btnProducto = new System.Windows.Forms.Button();
             this.btnResta = new System.Windows.Forms.Button();
             this.btnSuma = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.historial = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -233,14 +233,14 @@ namespace TP06
             this.btnSuma.UseVisualStyleBackColor = true;
             this.btnSuma.Click += new System.EventHandler(this.btnSigno_Click);
             // 
-            // listBox1
+            // historial
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(278, 50);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(257, 244);
-            this.listBox1.TabIndex = 18;
+            this.historial.FormattingEnabled = true;
+            this.historial.ItemHeight = 15;
+            this.historial.Location = new System.Drawing.Point(278, 50);
+            this.historial.Name = "historial";
+            this.historial.Size = new System.Drawing.Size(257, 244);
+            this.historial.TabIndex = 18;
             // 
             // label1
             // 
@@ -258,7 +258,7 @@ namespace TP06
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 326);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.historial);
             this.Controls.Add(this.btnDivision);
             this.Controls.Add(this.btnProducto);
             this.Controls.Add(this.btnResta);
@@ -305,7 +305,7 @@ namespace TP06
         private System.Windows.Forms.Button btnProducto;
         private System.Windows.Forms.Button btnResta;
         private System.Windows.Forms.Button btnSuma;
-        private ListBox listBox1;
+        private ListBox historial;
         private Label label1;
 
         public TextBox Pantalla { get => pantalla; set => pantalla = value; }
@@ -326,6 +326,7 @@ namespace TP06
         public Button BtnProducto { get => btnProducto; set => btnProducto = value; }
         public Button BtnResta { get => btnResta; set => btnResta = value; }
         public Button BtnSuma { get => btnSuma; set => btnSuma = value; }
+        public ListBox Historial { get => historial; set => historial = value; }
     }
 }
 

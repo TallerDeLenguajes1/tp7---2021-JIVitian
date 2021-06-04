@@ -12,13 +12,18 @@ namespace TP06.Controller
 {
     public class ControllerCalculadora
     {
+        // Ventana es la vista de la Calculadora
         private ViewCalculadora ventana;
+        // Lista que contendrá la información del historial
         private LinkedList<Calculadora> lista;
+        // culture indica que notación tendran los decimales de la calculadora.
+        private CultureInfo culture;
 
         public ControllerCalculadora(ViewCalculadora ventana)
         {
             this.ventana = ventana;
-            this.lista = new LinkedList<Calculadora>();
+            lista = new LinkedList<Calculadora>();
+            culture = new CultureInfo("en-US");
         }
 
         public void EscribirNumero(string numero)
@@ -75,7 +80,7 @@ namespace TP06.Controller
             if (key == 'c' || key == 'C') Vaciar();
         }
 
-        public string[] leerPantalla()
+        private string[] leerPantalla()
         {
             Regex separador = new Regex(" ");
             return separador.Split(ventana.Pantalla.Text);
@@ -104,27 +109,43 @@ namespace TP06.Controller
             }
         }
 
+        private Calculadora InicializarCalculadora(string[] partes)
+        {
+            Calculadora calculadora = new Calculadora();
+            calculadora.Numero1 = float.Parse(partes[0], culture);
+            calculadora.Operador = partes[1];
+            calculadora.Numero2 = float.Parse(partes[2], culture);
+            calculadora.FechaYHora = DateTime.Now;
+
+            return calculadora;
+        }
+
+        private void ActualizarHistorial()
+        {
+            // Añado como primer item el primer elemento de la lista de calculadoras
+            ventana.Historial.Items.Insert(0, lista.First.Value.ToString());
+        }
+
+        private void AgregarNodo(Calculadora calculadora)
+        {
+            // Añado el nuevo nodo al inicio de la lista.
+            lista.AddFirst(new LinkedListNode<Calculadora>(calculadora));
+        }
+
         public void EscribirResultado()
         {
             try
             {
-                CultureInfo culture = new CultureInfo("en-US");
                 string[] partes = leerPantalla();
 
                 if (partes.Length == 3 && partes[2] != "")
                 {
-                    LinkedListNode<Calculadora> nodo;
-                    Calculadora calculadora = new Calculadora();
-                    calculadora.Numero1 = float.Parse(partes[0], culture);
-                    calculadora.Operador = partes[1];
-                    calculadora.Numero2 = float.Parse(partes[2], culture);
-                    calculadora.FechaYHora = DateTime.Now;
-
+                    Calculadora calculadora = InicializarCalculadora(partes);
                     Calcular(calculadora);
-                    nodo = new LinkedListNode<Calculadora>(calculadora);
-                    // Añado el nuevo nodo a la lista.
-                    this.lista.AddFirst(nodo);
+                    // Escribo el resultado en pantalla
                     ventana.Pantalla.Text = calculadora.Resultado.ToString(culture);
+                    AgregarNodo(calculadora);
+                    ActualizarHistorial();
                 }
             }
             catch (Exception e) //Por si pasara algo raro
