@@ -28,12 +28,10 @@ namespace TP06.Controller
 
         public void EscribirNumero(string numero)
         {
-            // Si hay un unico 0 en pantalla, no se podrán escribir mas 0
-            if (ventana.Pantalla.Text != "0" || numero != "0")
-                ventana.Pantalla.Text += numero;
             // Si hubo un NAN o alguna palabra, será reemplazada por un número
-            if (new Regex(@"[a-zA-Z]+").IsMatch(ventana.Pantalla.Text))
-                ventana.Pantalla.Text = numero;
+            if (new Regex(@"\A[a-zA-Z]+\z").IsMatch(ventana.Pantalla.Text))
+                Vaciar();
+            ventana.Pantalla.Text += numero;
         }
 
         public void Vaciar()
@@ -56,15 +54,24 @@ namespace TP06.Controller
 
         public void EscribirSigno(string signo)
         {
-            Regex signos = new Regex(@"(\+|\-|\*|\/)\s\z");
-            // Para poder ingresar numeros negativos al inicio
-            if (ventana.Pantalla.Text == "" && signo == "-") 
-                ventana.Pantalla.Text += signo;
-            // Solo puedo ingresar un signo si hay un numero atras
-            if (new Regex(@"\d+\z").IsMatch(ventana.Pantalla.Text)) 
-                ventana.Pantalla.Text += $" {signo} ";
-            if (signos.IsMatch(ventana.Pantalla.Text)) // Reemplazo el ultimo signo
-                ventana.Pantalla.Text = signos.Replace(ventana.Pantalla.Text, $"{signo} ");
+            Regex signoAtras = new Regex(@"(\+|\-|\*|\/)\s\z");
+            Regex controlSigno = new Regex(@"((\+|\-|\*|\/)\s\d+\z)");
+            Regex numero = new Regex(@"\d+\z");
+
+            // Si ya se usó un operador antes, no deja poner otro
+            // puesto que la calculadora funciona solo con dos terminos
+            if (!controlSigno.IsMatch(ventana.Pantalla.Text))
+            {
+                // Para poder ingresar numeros negativos al inicio
+                if (ventana.Pantalla.Text == "" && signo == "-")
+                    ventana.Pantalla.Text += signo;
+                // Solo puedo ingresar un signo si hay un numero atras
+                if (numero.IsMatch(ventana.Pantalla.Text))
+                    ventana.Pantalla.Text += $" {signo} ";
+                // Si hay un signo atras del que estoy por ingresar, lo reemplazo
+                if (signoAtras.IsMatch(ventana.Pantalla.Text))
+                    ventana.Pantalla.Text = signoAtras.Replace(ventana.Pantalla.Text, $"{signo} ");
+            }
         }
 
         public void EscribirDesdeTeclado(char key)
@@ -151,6 +158,23 @@ namespace TP06.Controller
             catch (Exception e) //Por si pasara algo raro
             {
                 ventana.Pantalla.Text = "NAN";
+            }
+        }
+
+        public void EliminarHistorial()
+        {
+            int indice = ventana.Historial.SelectedIndex;
+            LinkedListNode<Calculadora> nodo = lista.First;
+
+            // Si hacemos doble click sobre la listbox y no hay elemento seleccionado, el método SelectedIndex devuelve -1
+            if (indice != -1)
+            {
+                ventana.Historial.Items.RemoveAt(indice);
+                // Como la lista y el listbox tienen los mismos elementos y ordenados de la misma manera
+                // avanzo tantos nodos como sea el valor del indice seleccionado por el usuario y lo saco de la lista
+                for (int i = 0; i < indice; i++)
+                    nodo = nodo.Next;
+                lista.Remove(nodo);
             }
         }
     }

@@ -52,5 +52,10 @@ namespace TP06
         {
             controller.EscribirDesdeTeclado(e.KeyChar);
         }
+
+        private void historial_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            controller.EliminarHistorial();
+        }
     }
 }

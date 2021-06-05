@@ -241,6 +241,7 @@ namespace TP06
             this.historial.Name = "historial";
             this.historial.Size = new System.Drawing.Size(257, 244);
             this.historial.TabIndex = 18;
+            this.historial.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.historial_MouseDoubleClick);
             // 
             // label1
             // 
